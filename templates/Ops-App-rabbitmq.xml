@@ -4,7 +4,7 @@
     <date>2015-03-10T18:53:51Z</date>
     <groups>
         <group>
-            <name>mq</name>
+            <name>MQ</name>
         </group>
     </groups>
     <templates>
@@ -13,7 +13,7 @@
             <name>Ops_App_RabbitMQ v3</name>
             <groups>
                 <group>
-                    <name>mq</name>
+                    <name>MQ</name>
                 </group>
             </groups>
             <applications>

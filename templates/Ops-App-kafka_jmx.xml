@@ -4,7 +4,7 @@
     <date>2016-06-17T09:48:32Z</date>
     <groups>
         <group>
-            <name>mq</name>
+            <name>MQ</name>
         </group>
     </groups>
     <templates>
@@ -14,7 +14,7 @@
             <description/>
             <groups>
                 <group>
-                    <name>mq</name>
+                    <name>MQ</name>
                 </group>
             </groups>
             <applications>
