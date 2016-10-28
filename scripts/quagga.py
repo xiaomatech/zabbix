@@ -30,11 +30,11 @@ def exec_cmd(cmd):
 # show_running_info('show ip route summary')
 # show_running_info('show interface description')
 def show_running_info(cmd):
-    return exec_cmd('/usr/bin/vtysh -c "%s"' % cmd)
+    return exec_cmd('/bin/vtysh -c "%s"' % cmd)
 
 
 def get_running_config():
-    running_config = exec_cmd('/usr/bin/vtysh -c "show run"')
+    running_config = exec_cmd('/bin/vtysh -c "show run"')
     got_global_config = False
     got_interface_config = False
     interface_config = {}
