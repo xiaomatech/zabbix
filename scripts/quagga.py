@@ -12,7 +12,11 @@ def exec_cmd(cmd):
     return txt
 
 
-#通过以下命令获取各种统计信息
+def show_running_info(cmd):
+    return exec_cmd('/bin/vtysh -c "%s"' % cmd)
+
+
+# get stats
 # show_running_info('show bgp ipv4 unicast summary')
 # show_running_info('show bgp ipv4 multicast summary')
 # show_running_info('show bgp summary')
@@ -29,9 +33,6 @@ def exec_cmd(cmd):
 # show_running_info('show ip route')
 # show_running_info('show ip route summary')
 # show_running_info('show interface description')
-def show_running_info(cmd):
-    return exec_cmd('/bin/vtysh -c "%s"' % cmd)
-
 
 def get_running_config():
     running_config = exec_cmd('/bin/vtysh -c "show run"')
