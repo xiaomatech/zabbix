@@ -42,8 +42,9 @@ class Metric(object):
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    return socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack(
-        '256s', ifname[:15]))[20:24])
+    return socket.inet_ntoa(
+        fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', ifname[:15]))[20:
+                                                                          24])
 
 
 def match_ip_address():
@@ -124,9 +125,8 @@ if __name__ == "__main__":
         redis_host = match_ip_address()
 
     if redis_host and redis_port:
-        client = redis.Redis(host=redis_host,
-                             port=redis_port,
-                             password=redis_pass)
+        client = redis.Redis(
+            host=redis_host, port=redis_port, password=redis_pass)
         server_info = client.info()
 
         a = []

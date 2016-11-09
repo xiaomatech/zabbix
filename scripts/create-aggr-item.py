@@ -85,15 +85,16 @@ def process_metrics(zapi, host, application, search_key, key_pattern, metrics,
 
         if metric not in devices['all']:
             print 'create', metric, params
-            zapi.item.create(hostid=hostid,
-                             name=name_format % metric,
-                             key_=key_format % metric,
-                             type=15,
-                             value_type=metric_info[0],
-                             params=params,
-                             units=metric_info[1],
-                             delay=60,
-                             applications=[applicationid])
+            zapi.item.create(
+                hostid=hostid,
+                name=name_format % metric,
+                key_=key_format % metric,
+                type=15,
+                value_type=metric_info[0],
+                params=params,
+                units=metric_info[1],
+                delay=60,
+                applications=[applicationid])
 
         elif devices['all'][metric][2] != params:
             print 'update', metric, params
@@ -105,10 +106,11 @@ def process_metrics(zapi, host, application, search_key, key_pattern, metrics,
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-z',
-                        '--zabbix-server',
-                        required=True,
-                        help='e.g. zabbix.domain.com:8080')
+    parser.add_argument(
+        '-z',
+        '--zabbix-server',
+        required=True,
+        help='e.g. zabbix.domain.com:8080')
     parser.add_argument('-u', '--zabbix-username', required=True)
     parser.add_argument('-p', '--zabbix-password', required=True)
     parser.add_argument('-s', '--host', action='append', required=True)

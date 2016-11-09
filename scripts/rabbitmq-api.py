@@ -12,9 +12,10 @@ import tempfile
 import os
 import logging
 
-logging.basicConfig(filename='/var/log/zabbix/rabbitmq_zabbix.log',
-                    level=logging.WARNING,
-                    format='%(asctime)s %(levelname)s: %(message)s')
+logging.basicConfig(
+    filename='/var/log/zabbix/rabbitmq_zabbix.log',
+    level=logging.WARNING,
+    format='%(asctime)s %(levelname)s: %(message)s')
 
 
 class RabbitMQAPI(object):
@@ -61,8 +62,10 @@ class RabbitMQAPI(object):
                 check = [(x, y) for x, y in queue.items() if x in _filter]
                 shared_items = set(_filter.items()).intersection(check)
                 if len(shared_items) == len(_filter):
-                    element = {'{#VHOSTNAME}': queue['vhost'],
-                               '{#QUEUENAME}': queue['name']}
+                    element = {
+                        '{#VHOSTNAME}': queue['vhost'],
+                        '{#QUEUENAME}': queue['name']
+                    }
                     queues.append(element)
                     logging.debug('Discovered queue ' + queue['vhost'] + '/' +
                                   queue['name'])
@@ -108,8 +111,9 @@ class RabbitMQAPI(object):
 
     def _prepare_data(self, queue, tmpfile):
         '''Prepare the queue data for sending'''
-        for item in ['memory', 'messages', 'messages_unacknowledged',
-                     'consumers']:
+        for item in [
+                'memory', 'messages', 'messages_unacknowledged', 'consumers'
+        ]:
             key = '"rabbitmq.queues[{0},queue_{1},{2}]"'
             key = key.format(queue['vhost'], item, queue['name'])
             value = queue.get(item, 0)
@@ -170,33 +174,28 @@ class RabbitMQAPI(object):
 
 def main():
     '''Command-line parameters and decoding for Zabbix use/consumption.'''
-    choices = ['list_queues', 'list_nodes', 'queues', 'check_aliveness',
-               'server']
+    choices = [
+        'list_queues', 'list_nodes', 'queues', 'check_aliveness', 'server'
+    ]
     parser = optparse.OptionParser()
-    parser.add_option('--username',
-                      help='RabbitMQ API username',
-                      default='guest')
-    parser.add_option('--password',
-                      help='RabbitMQ API password',
-                      default='guest')
-    parser.add_option('--hostname',
-                      help='RabbitMQ API host',
-                      default=socket.gethostname())
-    parser.add_option('--protocol',
-                      help='RabbitMQ API protocol (http or https)',
-                      default='http')
-    parser.add_option('--port',
-                      help='RabbitMQ API port',
-                      type='int',
-                      default=15672)
-    parser.add_option('--check',
-                      type='choice',
-                      choices=choices,
-                      help='Type of check')
+    parser.add_option(
+        '--username', help='RabbitMQ API username', default='guest')
+    parser.add_option(
+        '--password', help='RabbitMQ API password', default='guest')
+    parser.add_option(
+        '--hostname', help='RabbitMQ API host', default=socket.gethostname())
+    parser.add_option(
+        '--protocol',
+        help='RabbitMQ API protocol (http or https)',
+        default='http')
+    parser.add_option(
+        '--port', help='RabbitMQ API port', type='int', default=15672)
+    parser.add_option(
+        '--check', type='choice', choices=choices, help='Type of check')
     parser.add_option('--metric', help='Which metric to evaluate', default='')
     parser.add_option('--filters', help='Filter used queues (see README)')
-    parser.add_option('--node',
-                      help='Which node to check (valid for --check=server)')
+    parser.add_option(
+        '--node', help='Which node to check (valid for --check=server)')
     parser.add_option('--conf', default='/etc/zabbix/zabbix_agentd.conf')
     parser.add_option(
         '--senderhostname',
@@ -206,13 +205,14 @@ def main():
     if not options.check:
         parser.error('At least one check should be specified')
     logging.debug("Started trying to process data")
-    api = RabbitMQAPI(user_name=options.username,
-                      password=options.password,
-                      host_name=options.hostname,
-                      protocol=options.protocol,
-                      port=options.port,
-                      conf=options.conf,
-                      senderhostname=options.senderhostname)
+    api = RabbitMQAPI(
+        user_name=options.username,
+        password=options.password,
+        host_name=options.hostname,
+        protocol=options.protocol,
+        port=options.port,
+        conf=options.conf,
+        senderhostname=options.senderhostname)
     if options.filters:
         try:
             filters = json.loads(options.filters)

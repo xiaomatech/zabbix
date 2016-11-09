@@ -6,22 +6,14 @@ import boto.ec2.cloudwatch
 
 ### Arguments
 parser = OptionParser()
-parser.add_option("-i",
-                  "--instance-id",
-                  dest="instance_id",
-                  help="DBInstanceIdentifier")
-parser.add_option("-a",
-                  "--access-key",
-                  dest="access_key",
-                  help="AWS Access Key")
-parser.add_option("-k",
-                  "--secret-key",
-                  dest="secret_key",
-                  help="AWS Secret Access Key")
-parser.add_option("-m",
-                  "--metric",
-                  dest="metric",
-                  help="RDS cloudwatch metric")
+parser.add_option(
+    "-i", "--instance-id", dest="instance_id", help="DBInstanceIdentifier")
+parser.add_option(
+    "-a", "--access-key", dest="access_key", help="AWS Access Key")
+parser.add_option(
+    "-k", "--secret-key", dest="secret_key", help="AWS Secret Access Key")
+parser.add_option(
+    "-m", "--metric", dest="metric", help="RDS cloudwatch metric")
 parser.add_option("-r", "--region", dest="region", help="RDS region")
 
 (options, args) = parser.parse_args()
@@ -37,40 +29,76 @@ if (options.metric == None):
 ###
 
 ### Real code
-metrics = {"CPUUtilization": {"type": "float",
-                              "value": None},
-           "ReadLatency": {"type": "float",
-                           "value": None},
-           "DatabaseConnections": {"type": "int",
-                                   "value": None},
-           "FreeableMemory": {"type": "float",
-                              "value": None},
-           "ReadIOPS": {"type": "int",
-                        "value": None},
-           "WriteLatency": {"type": "float",
-                            "value": None},
-           "WriteThroughput": {"type": "float",
-                               "value": None},
-           "WriteIOPS": {"type": "int",
-                         "value": None},
-           "SwapUsage": {"type": "float",
-                         "value": None},
-           "ReadThroughput": {"type": "float",
-                              "value": None},
-           "DiskQueueDepth": {"type": "float",
-                              "value": None},
-           "ReplicaLag": {"type": "int",
-                          "value": None},
-           "DiskQueueDepth": {"type": "float",
-                              "value": None},
-           "ReplicaLag": {"type": "int",
-                          "value": None},
-           "NetworkReceiveThroughput": {"type": "float",
-                                        "value": None},
-           "NetworkTransmitThroughput": {"type": "float",
-                                         "value": None},
-           "FreeStorageSpace": {"type": "float",
-                                "value": None}}
+metrics = {
+    "CPUUtilization": {
+        "type": "float",
+        "value": None
+    },
+    "ReadLatency": {
+        "type": "float",
+        "value": None
+    },
+    "DatabaseConnections": {
+        "type": "int",
+        "value": None
+    },
+    "FreeableMemory": {
+        "type": "float",
+        "value": None
+    },
+    "ReadIOPS": {
+        "type": "int",
+        "value": None
+    },
+    "WriteLatency": {
+        "type": "float",
+        "value": None
+    },
+    "WriteThroughput": {
+        "type": "float",
+        "value": None
+    },
+    "WriteIOPS": {
+        "type": "int",
+        "value": None
+    },
+    "SwapUsage": {
+        "type": "float",
+        "value": None
+    },
+    "ReadThroughput": {
+        "type": "float",
+        "value": None
+    },
+    "DiskQueueDepth": {
+        "type": "float",
+        "value": None
+    },
+    "ReplicaLag": {
+        "type": "int",
+        "value": None
+    },
+    "DiskQueueDepth": {
+        "type": "float",
+        "value": None
+    },
+    "ReplicaLag": {
+        "type": "int",
+        "value": None
+    },
+    "NetworkReceiveThroughput": {
+        "type": "float",
+        "value": None
+    },
+    "NetworkTransmitThroughput": {
+        "type": "float",
+        "value": None
+    },
+    "FreeStorageSpace": {
+        "type": "float",
+        "value": None
+    }
+}
 end = datetime.datetime.utcnow()
 start = end - datetime.timedelta(minutes=5)
 
@@ -83,9 +111,8 @@ for r in boto.ec2.cloudwatch.regions():
         region = r
         break
 
-conn = boto.ec2.cloudwatch.CloudWatchConnection(options.access_key,
-                                                options.secret_key,
-                                                region=region)
+conn = boto.ec2.cloudwatch.CloudWatchConnection(
+    options.access_key, options.secret_key, region=region)
 
 for k, vh in metrics.items():
 

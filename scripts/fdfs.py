@@ -3,10 +3,11 @@
 stat = '/tmp/fdfs.stat'
 
 from subprocess import Popen, PIPE
-p = Popen('/usr/bin/fdfs_monitor /etc/fdfs/client.conf',
-          shell=True,
-          stdout=PIPE,
-          stderr=PIPE)
+p = Popen(
+    '/usr/bin/fdfs_monitor /etc/fdfs/client.conf',
+    shell=True,
+    stdout=PIPE,
+    stderr=PIPE)
 txt = p.stdout.read()
 p.stdout.close()
 p.stderr.close()
@@ -29,7 +30,7 @@ for tmp2 in group2:
     for tmp in group[1:]:
         item = tmp.split('=')
         if len(item) >= 2:
-            fp.write(group_name + ' ' + item[0].strip('\t\t') + ' ' + item[
-                1].strip('\n') + '\n')
+            fp.write(group_name + ' ' + item[0].strip('\t\t') + ' ' + item[1]
+                     .strip('\n') + '\n')
 
 fp.close()

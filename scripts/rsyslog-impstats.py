@@ -95,9 +95,10 @@ def main():
         usage='%(prog)s [--discover queue|action]')
     parser = argparse.ArgumentParser(
         description='Helper script to link syslog stats and zabbix.')
-    parser.add_argument("--discover",
-                        action="store",
-                        help="Discover the rsyslog items in this system")
+    parser.add_argument(
+        "--discover",
+        action="store",
+        help="Discover the rsyslog items in this system")
 
     args = parser.parse_args()
 

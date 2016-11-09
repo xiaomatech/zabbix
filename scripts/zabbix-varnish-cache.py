@@ -128,17 +128,13 @@ def send(options):
     # Submit metrics.
     rc, output = execute(
         'zabbix_sender -T -r -i - %(config)s %(server)s %(port)s %(host)s' % {
-            'config':
-            '-c "%s"' % options.zabbix_config
+            'config': '-c "%s"' % options.zabbix_config
             if options.zabbix_config is not None else '',
-            'server':
-            '-z "%s"' % options.zabbix_server
+            'server': '-z "%s"' % options.zabbix_server
             if options.zabbix_server is not None else '',
-            'port':
-            '-p %d' % options.zabbix_port
+            'port': '-p %d' % options.zabbix_port
             if options.zabbix_port is not None else '',
-            'host':
-            '-s "%s"' % options.zabbix_host
+            'host': '-s "%s"' % options.zabbix_host
             if options.zabbix_host is not None else '',
         },
         stdin=rows)
@@ -149,6 +145,7 @@ def send(options):
     else:
         sys.stderr.write(output)
         sys.exit(1)
+
 
 ###############################################################################
 ## 'discover' COMMAND
@@ -173,6 +170,7 @@ def discover(options):
 
     # Render output.
     sys.stdout.write(json.dumps(discovery, sort_keys=True, indent=2))
+
 
 ###############################################################################
 ## HELPERS
@@ -229,13 +227,15 @@ def str2key(name):
 
 
 def execute(command, stdin=None):
-    child = subprocess.Popen(command,
-                             shell=True,
-                             stdout=subprocess.PIPE,
-                             stdin=subprocess.PIPE,
-                             stderr=subprocess.STDOUT)
+    child = subprocess.Popen(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stdin=subprocess.PIPE,
+        stderr=subprocess.STDOUT)
     output = child.communicate(input=stdin)[0]
     return child.returncode, output
+
 
 ###############################################################################
 ## MAIN
@@ -245,13 +245,14 @@ def execute(command, stdin=None):
 def main():
     # Set up the base command line parser.
     parser = ArgumentParser()
-    parser.add_argument('-n',
-                        '--varnish-name',
-                        dest='varnish_name',
-                        type=str,
-                        required=False,
-                        default=None,
-                        help='the varnishd instance to get stats from')
+    parser.add_argument(
+        '-n',
+        '--varnish-name',
+        dest='varnish_name',
+        type=str,
+        required=False,
+        default=None,
+        help='the varnishd instance to get stats from')
     subparsers = parser.add_subparsers(dest='command')
 
     # Set up 'send' command.
@@ -293,12 +294,13 @@ def main():
         help='host name as registered in the Zabbix frontend')
 
     # Set up 'discover' command.
-    subparser = subparsers.add_parser('discover',
-                                      help='generate Zabbix discovery schema')
-    subparser.add_argument('subject',
-                           type=str,
-                           choices=SUBJECTS.keys(),
-                           help="dynamic resources to be discovered")
+    subparser = subparsers.add_parser(
+        'discover', help='generate Zabbix discovery schema')
+    subparser.add_argument(
+        'subject',
+        type=str,
+        choices=SUBJECTS.keys(),
+        help="dynamic resources to be discovered")
 
     # Parse command line arguments.
     options = parser.parse_args()

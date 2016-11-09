@@ -43,9 +43,7 @@ def parse(data):
     }
     replace = '() '
     csvobj = csv.reader(
-        StringIO.StringIO(data),
-        delimiter=":",
-        skipinitialspace=True)
+        StringIO.StringIO(data), delimiter=":", skipinitialspace=True)
     ret = {}
     for (key, val) in csvobj:
         if key == 'Scoreboard':

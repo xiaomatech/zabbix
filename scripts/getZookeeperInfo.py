@@ -15,18 +15,20 @@ ZookeeperKey = 'zk_version'
 # Referer: http://zookeeper.apache.org/doc/r3.4.6/zookeeperAdmin.html#sc_zkCommands
 
 CommandKey = {
-    'conf': ['clientPort', 'dataDir', 'dataLogDir', 'tickTime',
-             'maxClientCnxns', 'minSessionTimeout', 'maxSessionTimeout',
-             'serverId', 'initLimit', 'syncLimit', 'electionAlg',
-             'electionPort', 'quorumPort', 'peerType'],
+    'conf': [
+        'clientPort', 'dataDir', 'dataLogDir', 'tickTime', 'maxClientCnxns',
+        'minSessionTimeout', 'maxSessionTimeout', 'serverId', 'initLimit',
+        'syncLimit', 'electionAlg', 'electionPort', 'quorumPort', 'peerType'
+    ],
     'ruok': ['state'],
-    'mntr': ['zk_version', 'zk_avg_latency', 'zk_max_latency',
-             'zk_min_latency', 'zk_packets_received', 'zk_packets_sent',
-             'zk_num_alive_connections', 'zk_outstanding_requests',
-             'zk_server_state', 'zk_znode_count', 'zk_watch_count',
-             'zk_ephemerals_count', 'zk_approximate_data_size',
-             'zk_open_file_descriptor_count', 'zk_max_file_descriptor_count',
-             'zk_followers', 'zk_synced_followers', 'zk_pending_syncs']
+    'mntr': [
+        'zk_version', 'zk_avg_latency', 'zk_max_latency', 'zk_min_latency',
+        'zk_packets_received', 'zk_packets_sent', 'zk_num_alive_connections',
+        'zk_outstanding_requests', 'zk_server_state', 'zk_znode_count',
+        'zk_watch_count', 'zk_ephemerals_count', 'zk_approximate_data_size',
+        'zk_open_file_descriptor_count', 'zk_max_file_descriptor_count',
+        'zk_followers', 'zk_synced_followers', 'zk_pending_syncs'
+    ]
 }
 
 
@@ -82,6 +84,7 @@ class ZooKeeperCommands(object):
         else:
             "zkCommand is wrong"
 
+
 ###########################################################################################################
 
 
@@ -93,6 +96,7 @@ Usage:
     '''
     for key in CommandKey:
         print 'zkCommand:%s, zkKey:%s' % (key, CommandKey[key])
+
 
 ###########################################################################################################
 

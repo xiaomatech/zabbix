@@ -15,8 +15,9 @@ def scan(logfile):
             for idx, ln in enumerate(lines):
                 attributes = {}
                 for param in ln.split(","):
-                    key, value = [k.replace(" ", "")
-                                  for k in param.strip().split("=")]
+                    key, value = [
+                        k.replace(" ", "") for k in param.strip().split("=")
+                    ]
                     keys[key] = value
                     attributes[key] = value
 
@@ -27,8 +28,9 @@ def scan(logfile):
                 for key in attributes.keys():
                     if key not in result[context].keys():
                         result[context][key] = []
-                    if key not in ['Context', 'Hostname', 'ProcessName',
-                                   'SessionId']:
+                    if key not in [
+                            'Context', 'Hostname', 'ProcessName', 'SessionId'
+                    ]:
                         result[context][key].append(attributes[key])
                     else:
                         result[context][key] = attributes[key]

@@ -161,42 +161,47 @@ def parse_args():
     valid_resource_types = ["pool", "net", "domain"]
     valid_actions = ["discover", "capacity", "allocation", "available"]
 
-    parser.add_option("",
-                      "--resource",
-                      dest="resource",
-                      help="Resource type to be queried",
-                      action="store",
-                      type="string",
-                      default=None)
-    parser.add_option("",
-                      "--action",
-                      dest="action",
-                      help="The name of the action to be performed",
-                      action="store",
-                      type="string",
-                      default=None)
+    parser.add_option(
+        "",
+        "--resource",
+        dest="resource",
+        help="Resource type to be queried",
+        action="store",
+        type="string",
+        default=None)
+    parser.add_option(
+        "",
+        "--action",
+        dest="action",
+        help="The name of the action to be performed",
+        action="store",
+        type="string",
+        default=None)
 
-    parser.add_option("",
-                      "--pool",
-                      dest="pool",
-                      help="The name of the pool to be queried",
-                      action="store",
-                      type="string",
-                      default=None)
-    parser.add_option("",
-                      "--net",
-                      dest="net",
-                      help="The name of the net to be queried",
-                      action="store",
-                      type="string",
-                      default=None)
-    parser.add_option("",
-                      "--domain",
-                      dest="domain",
-                      help="The name of the domain to be queried",
-                      action="store",
-                      type="string",
-                      default=None)
+    parser.add_option(
+        "",
+        "--pool",
+        dest="pool",
+        help="The name of the pool to be queried",
+        action="store",
+        type="string",
+        default=None)
+    parser.add_option(
+        "",
+        "--net",
+        dest="net",
+        help="The name of the net to be queried",
+        action="store",
+        type="string",
+        default=None)
+    parser.add_option(
+        "",
+        "--domain",
+        dest="domain",
+        help="The name of the domain to be queried",
+        action="store",
+        type="string",
+        default=None)
 
     (options, args) = parser.parse_args()
     if options.resource not in valid_resource_types:
@@ -204,8 +209,9 @@ def parse_args():
             valid_resource_types))
 
     if options.resource == "pool":
-        pool_valid_actions = ['list', 'total', 'used', 'free', 'active',
-                              'UUID']
+        pool_valid_actions = [
+            'list', 'total', 'used', 'free', 'active', 'UUID'
+        ]
         if options.action not in pool_valid_actions:
             parser.error("Action hass to be one of: " + ", ".join(
                 pool_valid_actions))

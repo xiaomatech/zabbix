@@ -20,9 +20,10 @@ class Job(object):
 
     def run(self):
 
-        logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
-                            level=logging.INFO,
-                            stream=sys.stderr)
+        logging.basicConfig(
+            format='%(asctime)s %(levelname)s %(message)s',
+            level=logging.INFO,
+            stream=sys.stderr)
 
         try:
             getattr(self, 'collect_%s' % self.args.type)()
@@ -255,10 +256,11 @@ class Job(object):
         cmd.extend(['-i', '-'])
 
         logging.info('Command: %s' % ' '.join(str(s) for s in cmd))
-        p = subprocess.Popen((str(s) for s in cmd),
-                             stdin=subprocess.PIPE,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
+        p = subprocess.Popen(
+            (str(s) for s in cmd),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE)
 
         logging.info('Output:\n%s' % p.communicate(result)[0])
 
@@ -308,13 +310,10 @@ if __name__ == '__main__':
     parser.add_argument('--jobtracker-host', default='127.0.0.1')
     parser.add_argument('--jobtracker-port', type=int, default=50030)
 
-    parser.add_argument('-z',
-                        '--zabbix-home',
-                        default='/usr/local/zabbix-agent-ops')
-    parser.add_argument('-s',
-                        '--host',
-                        required=True,
-                        help='hostname recognized by zabbix')
+    parser.add_argument(
+        '-z', '--zabbix-home', default='/usr/local/zabbix-agent-ops')
+    parser.add_argument(
+        '-s', '--host', required=True, help='hostname recognized by zabbix')
 
     args = parser.parse_args()
 

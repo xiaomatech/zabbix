@@ -41,24 +41,23 @@ class AwsZabbix:
             'ebs': 'VolumeId',
             'billing': 'Currency'
         }
-        self.client = boto3.client('cloudwatch',
-                                   region_name=region,
-                                   aws_access_key_id=access_key,
-                                   aws_secret_access_key=secret)
+        self.client = boto3.client(
+            'cloudwatch',
+            region_name=region,
+            aws_access_key_id=access_key,
+            aws_secret_access_key=secret)
 
     def __get_metric_list(self):
-        resp = self.client.list_metrics(Dimensions=[
-            {
-                'Name': self.id_dimentions[self.service],
-                'Value': ('USD'
-                          if self.service == "billing" else self.identity)
-            }
-        ])
+        resp = self.client.list_metrics(Dimensions=[{
+            'Name': self.id_dimentions[self.service],
+            'Value': ('USD' if self.service == "billing" else self.identity)
+        }])
         metric_list = []
         for data in resp["Metrics"]:
-            metric = Metric(name=data["MetricName"],
-                            namespace=data["Namespace"],
-                            dimensions=data["Dimensions"])
+            metric = Metric(
+                name=data["MetricName"],
+                namespace=data["Namespace"],
+                dimensions=data["Dimensions"])
             if self.service == "elb":
                 for dimension in data["Dimensions"]:
                     if dimension["Name"] == "AvailabilityZone":
@@ -75,24 +74,19 @@ class AwsZabbix:
                            stat_type="Average",
                            period_sec=300):
         if self.service == "billing":
-            dimensions = [
-                {
-                    'Name': self.id_dimentions[self.service],
-                    'Value': 'USD'
-                }
-            ]
+            dimensions = [{
+                'Name': self.id_dimentions[self.service],
+                'Value': 'USD'
+            }]
             if servicename != "billing":
-                dimensions.insert(0, {
-                    'Name': 'ServiceName',
-                    'Value': servicename
-                })
+                dimensions.insert(
+                    0, {'Name': 'ServiceName',
+                        'Value': servicename})
         else:
-            dimensions = [
-                {
-                    'Name': self.id_dimentions[self.service],
-                    'Value': self.identity
-                }
-            ]
+            dimensions = [{
+                'Name': self.id_dimentions[self.service],
+                'Value': self.identity
+            }]
         if self.service == "elb":
             split_metric_name = metric_name.split(".")
             if len(split_metric_name) == 2:
@@ -144,8 +138,8 @@ class AwsZabbix:
             else:
                 send_item["key"] = 'cloudwatch.metric[%s]' % metric.name
             send_item["value"] = datapoint["Average"]
-            send_item["clock"] = calendar.timegm(datapoint[
-                "Timestamp"].utctimetuple())
+            send_item["clock"] = calendar.timegm(datapoint["Timestamp"]
+                                                 .utctimetuple())
             send_items.append(send_item)
         return send_items
 
@@ -213,45 +207,48 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='Get AWS CloudWatch Metric list json format.')
 
-    parser.add_argument('-r',
-                        '--region',
-                        default=os.getenv("AWS_DEFAULT_REGION"),
-                        help='set AWS region name(e.g.: ap-northeast-1)')
-    parser.add_argument('-a',
-                        '--accesskey',
-                        default=os.getenv("AWS_ACCESS_KEY_ID"),
-                        help='set AWS Access Key ID')
-    parser.add_argument('-s',
-                        '--secret',
-                        default=os.getenv("AWS_SECRET_ACCESS_KEY"),
-                        help='set AWS Secret Access Key')
+    parser.add_argument(
+        '-r',
+        '--region',
+        default=os.getenv("AWS_DEFAULT_REGION"),
+        help='set AWS region name(e.g.: ap-northeast-1)')
+    parser.add_argument(
+        '-a',
+        '--accesskey',
+        default=os.getenv("AWS_ACCESS_KEY_ID"),
+        help='set AWS Access Key ID')
+    parser.add_argument(
+        '-s',
+        '--secret',
+        default=os.getenv("AWS_SECRET_ACCESS_KEY"),
+        help='set AWS Secret Access Key')
     parser.add_argument(
         '-i',
         '--identity',
         required=True,
-        help='set Identity data (ec2: InstanceId, elb: LoadBalancerName, rds: DBInstanceIdentifier, ebs: VolumeId)')
+        help='set Identity data (ec2: InstanceId, elb: LoadBalancerName, rds: DBInstanceIdentifier, ebs: VolumeId)'
+    )
     parser.add_argument(
         '-m',
         '--send-mode',
         default='False',
         help='set True if you send statistic data (e.g.: True or False)')
-    parser.add_argument('-t',
-                        '--timerange',
-                        type=int,
-                        default=10,
-                        help='set Timerange min')
-    parser.add_argument('service',
-                        metavar='service_name',
-                        help='set Service name (e.g.: ec2 or elb or rds')
+    parser.add_argument(
+        '-t', '--timerange', type=int, default=10, help='set Timerange min')
+    parser.add_argument(
+        'service',
+        metavar='service_name',
+        help='set Service name (e.g.: ec2 or elb or rds')
 
     args = parser.parse_args()
 
-    aws_zabbix = AwsZabbix(region=args.region,
-                           access_key=args.accesskey,
-                           secret=args.secret,
-                           identity=args.identity,
-                           service=args.service,
-                           timerange_min=args.timerange)
+    aws_zabbix = AwsZabbix(
+        region=args.region,
+        access_key=args.accesskey,
+        secret=args.secret,
+        identity=args.identity,
+        service=args.service,
+        timerange_min=args.timerange)
 
     if args.send_mode.upper() == 'TRUE':
         aws_zabbix.send_metric_data_to_zabbix()

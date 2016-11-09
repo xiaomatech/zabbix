@@ -47,7 +47,8 @@ class AWSSHDParser(HTMLParser):
                 send_item["host"] = self.block
 
                 replace = re.compile(
-                    ".+/rss/(.*?)(-(ap-[a-z]+-[0-9]|us-[a-z]+-[0-9]|eu-[a-z]+-[0-9]|sa-[a-z]+-[0-9]))*\.rss")
+                    ".+/rss/(.*?)(-(ap-[a-z]+-[0-9]|us-[a-z]+-[0-9]|eu-[a-z]+-[0-9]|sa-[a-z]+-[0-9]))*\.rss"
+                )
                 match = replace.match(url)
                 ServiceName = match.group(1)
                 Region = match.group(3)
@@ -105,7 +106,8 @@ class AWSSHDParser(HTMLParser):
                     lld_item = json.loads(lld_json_string)
 
                     replace = re.compile(
-                        ".+/rss/(.*?)(-(ap-[a-z]+-[0-9]|us-[a-z]+-[0-9]|eu-[a-z]+-[0-9]|sa-[a-z]+-[0-9]))*\.rss")
+                        ".+/rss/(.*?)(-(ap-[a-z]+-[0-9]|us-[a-z]+-[0-9]|eu-[a-z]+-[0-9]|sa-[a-z]+-[0-9]))*\.rss"
+                    )
                     match = replace.match(self.base_url + i[1][1:])
                     ServiceName = match.group(1)
                     Region = match.group(3)
@@ -126,20 +128,21 @@ class AWSSHDParser(HTMLParser):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='Get RSS list or Zabbix LLD format output from AWS Service Health Dashboard page.')
-    parser.add_argument('-b',
-                        '--block',
-                        default="AP",
-                        help='set AWS region block(e.g.:NA or SA or EU or AP)')
-    parser.add_argument('-i',
-                        '--interval',
-                        type=int,
-                        help='set interval time (seconds)')
+        description='Get RSS list or Zabbix LLD format output from AWS Service Health Dashboard page.'
+    )
+    parser.add_argument(
+        '-b',
+        '--block',
+        default="AP",
+        help='set AWS region block(e.g.:NA or SA or EU or AP)')
+    parser.add_argument(
+        '-i', '--interval', type=int, help='set interval time (seconds)')
     parser.add_argument(
         '-m',
         '--send-mode',
         default='False',
-        help='set True if you send AWS Service Health Dashboard status information. set False if you want to get lld format service list. (e.g.: True or False)')
+        help='set True if you send AWS Service Health Dashboard status information. set False if you want to get lld format service list. (e.g.: True or False)'
+    )
 
     block_list = ["NA", "SA", "EU", "AP"]
     args = parser.parse_args()
@@ -156,9 +159,8 @@ if __name__ == "__main__":
 
     if args.send_mode.upper() == "TRUE":
         for url in parser.url_list:
-            get_rss_th = threading.Thread(target=parser.get_rss,
-                                          name="get_rss_th",
-                                          args=(url, ))
+            get_rss_th = threading.Thread(
+                target=parser.get_rss, name="get_rss_th", args=(url, ))
             get_rss_th.start()
 
     if args.send_mode.upper() == "FALSE":

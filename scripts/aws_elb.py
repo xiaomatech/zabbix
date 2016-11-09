@@ -8,30 +8,27 @@ import argparse
 def main():
 
     cmd_parser = argparse.ArgumentParser(description='Send ELB Info To Zabbix')
-    cmd_parser.add_argument('-k',
-                            '--aws_access_key_id',
-                            dest='key',
-                            help='AWS Access Key ID',
-                            required=True)
-    cmd_parser.add_argument('-s',
-                            '--aws_secret_key_id',
-                            dest='secret',
-                            help='AWS Secret Access Key',
-                            required=True)
-    cmd_parser.add_argument('-r',
-                            '--region',
-                            dest='region',
-                            help='AWS Region',
-                            required=True)
-    cmd_parser.add_argument('-n',
-                            '--name',
-                            dest='name',
-                            help='Zabbix Name',
-                            required=True)
+    cmd_parser.add_argument(
+        '-k',
+        '--aws_access_key_id',
+        dest='key',
+        help='AWS Access Key ID',
+        required=True)
+    cmd_parser.add_argument(
+        '-s',
+        '--aws_secret_key_id',
+        dest='secret',
+        help='AWS Secret Access Key',
+        required=True)
+    cmd_parser.add_argument(
+        '-r', '--region', dest='region', help='AWS Region', required=True)
+    cmd_parser.add_argument(
+        '-n', '--name', dest='name', help='Zabbix Name', required=True)
     args = cmd_parser.parse_args()
-    conn = boto.ec2.elb.connect_to_region(args.region,
-                                          aws_access_key_id=args.key,
-                                          aws_secret_access_key=args.secret)
+    conn = boto.ec2.elb.connect_to_region(
+        args.region,
+        aws_access_key_id=args.key,
+        aws_secret_access_key=args.secret)
     elbs = conn.get_all_load_balancers()
     total_elbs = len(elbs)
     outofservice = 0
