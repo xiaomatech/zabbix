@@ -79,9 +79,8 @@ class AwsZabbix:
                 'Value': 'USD'
             }]
             if servicename != "billing":
-                dimensions.insert(
-                    0, {'Name': 'ServiceName',
-                        'Value': servicename})
+                dimensions.insert(0, {'Name': 'ServiceName',
+                                      'Value': servicename})
         else:
             dimensions = [{
                 'Name': self.id_dimentions[self.service],
@@ -226,8 +225,7 @@ if __name__ == '__main__':
         '-i',
         '--identity',
         required=True,
-        help='set Identity data (ec2: InstanceId, elb: LoadBalancerName, rds: DBInstanceIdentifier, ebs: VolumeId)'
-    )
+        help='set Identity data (ec2: InstanceId, elb: LoadBalancerName, rds: DBInstanceIdentifier, ebs: VolumeId)')
     parser.add_argument(
         '-m',
         '--send-mode',

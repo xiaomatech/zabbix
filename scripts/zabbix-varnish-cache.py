@@ -146,7 +146,6 @@ def send(options):
         sys.stderr.write(output)
         sys.exit(1)
 
-
 ###############################################################################
 ## 'discover' COMMAND
 ###############################################################################
@@ -170,7 +169,6 @@ def discover(options):
 
     # Render output.
     sys.stdout.write(json.dumps(discovery, sort_keys=True, indent=2))
-
 
 ###############################################################################
 ## HELPERS
@@ -235,7 +233,6 @@ def execute(command, stdin=None):
         stderr=subprocess.STDOUT)
     output = child.communicate(input=stdin)[0]
     return child.returncode, output
-
 
 ###############################################################################
 ## MAIN

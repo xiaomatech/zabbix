@@ -10,7 +10,6 @@ def zbx_fail():
     print "ZBX_NOTSUPPORTED"
     sys.exit(2)
 
-
 # Default returnval
 returnval = None
 
